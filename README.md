@@ -1,2 +1,5 @@
-# BlackjackInNutshell
-23/4
+HOW TO RUN?
+
+pip install -r requirements.txt
+
+python main.py
