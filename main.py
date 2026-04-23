@@ -8,7 +8,7 @@ from agent.monte_carlo_agent import MonteCarloAgent
 from ui.blackjack_ui import BlackjackUI
 
 def train_agents(env, random_agent, mc_agent, episodes=20000):
-    print(f"Training Agents for {episodes} episodes without UI...")
+    print(f"Training...")
     for _ in range(episodes):
         obs, info = env.reset()
         done = False
@@ -32,7 +32,7 @@ def train_agents(env, random_agent, mc_agent, episodes=20000):
         if mc_episode:
             mc_agent.update(mc_episode, rewards[2])
 
-    print("Training complete.")
+    print("Done :v")
 
 def main():
     env = MultiPlayerBlackjackEnv()
@@ -100,7 +100,6 @@ def main():
                     running = False
                 elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     if ui.btn_continue.collidepoint(event.pos):
-                        print(f"\n[!] ${balances[0]}!\n")
                         balances = [1000.0, 1000.0, 1000.0]
                         current_bets = [10, 10, 10]
                         agent1_streak = 0
