@@ -272,7 +272,6 @@ class BlackjackUI:
             self._draw_text(label, x, y - 30, color)
             self._draw_text(f"Bal: ${int(balances[p_idx])}", x, y - 60, TEXT_COLOR, font=self.small_font)
             
-            # Print physical hand score onto screen
             score_val = score_hand([c for c in hands[p_idx] if c != "HIDDEN"])
             self._draw_text(f"Score: {score_val}", x, y + 150, color=(200, 255, 200), font=self.small_font)
             
