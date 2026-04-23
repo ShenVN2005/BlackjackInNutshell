@@ -38,6 +38,19 @@ def main():
     env = MultiPlayerBlackjackEnv()
     random_agent = RandomAgent()
     mc_agent = MonteCarloAgent()
+    pygame.mixer.init() # Khởi tạo bộ trộn âm thanh
+    try:
+        # Tải file nhạc từ thư mục assets
+        pygame.mixer.music.load("assets/balatro theme.mp3")
+        
+        # Thiết lập âm lượng (0.0 đến 1.0), 0.4 là vừa đủ để chill
+        pygame.mixer.music.set_volume(0.4)
+        
+        # Phát nhạc lặp lại vô tận (loops=-1)
+        pygame.mixer.music.play(-1)
+        print("Đang phát: Balatro Theme")
+    except pygame.error as e:
+        print(f"Lỗi: Không thể tải nhạc. Hãy kiểm tra lại file trong thư mục assets. ({e})")
     
     train_agents(env, random_agent, mc_agent, 20000)
     
