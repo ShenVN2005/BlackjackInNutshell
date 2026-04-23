@@ -16,11 +16,7 @@ class MonteCarloAgent:
         return np.argmax(self.q_table[state])
         
     def update(self, episode, final_reward):
-        """
-        episode is a list of (state, action) pairs.
-        For Blackjack, the return from every step in the episode is identical to the final_reward
-        because there are no intermediate rewards.
-        """
+
         visited_state_actions = set()
         
         for state, action in episode:
