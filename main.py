@@ -38,13 +38,21 @@ def main():
     env = MultiPlayerBlackjackEnv()
     random_agent = RandomAgent()
     mc_agent = MonteCarloAgent()
-    pygame.mixer.init() 
+    pygame.mixer.init()
     try:
-        pygame.mixer.music.load("assets/balatro theme.mp3")      
-        pygame.mixer.music.set_volume(0.8)      
+        
+        pygame.mixer.music.load("assets/balatro theme.mp3")
+        
+        
+        pygame.mixer.music.set_volume(0.8)
+        
+        
         pygame.mixer.music.play(-1)
+        
+        
     except pygame.error as e:
         print(f"Error ({e})")
+    
     def load_sfx(path, volume=0.6):
         try:
             sfx = pygame.mixer.Sound(path)
@@ -55,10 +63,10 @@ def main():
             return None
 
     click_sfx = load_sfx("assets/button.mp3")
-    hit_sfx = load_sfx("assets/card1.mp3", 0.8)  # Tiếng bài cho to hơn xíu
-    win_sfx = load_sfx("assets/win.mp3", 0.7)    # Tiếng thắng khi cashout
+    hit_sfx = load_sfx("assets/card1.mp3", 0.8)  
+    win_sfx = load_sfx("assets/win.mp3", 0.7)    
 
-    # Hàm phát âm thanh an toàn
+    
     def play_sfx(sfx_obj):
         if sfx_obj:
             sfx_obj.play()
@@ -76,7 +84,7 @@ def main():
     done = False
     
     state = "MENU"
-    previous_state = "MENU"  # Biến ghi nhớ "đường về"
+    previous_state = "MENU"
     running = True
     
     while running:
@@ -86,22 +94,17 @@ def main():
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
-                
                 elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     if ui.btn_play.collidepoint(event.pos):
                         play_sfx(click_sfx)
                         state = "BETTING"
-                    
-                    # Sử dụng nút Settings hình chữ nhật ở giữa Menu
                     elif ui.btn_settings.collidepoint(event.pos):
                         play_sfx(click_sfx)
-                        previous_state = "MENU" # Ghi nhớ để quay về Menu
+                        previous_state = "MENU"
                         state = "SETTINGS"
-                    
                     elif ui.btn_exit.collidepoint(event.pos):
                         play_sfx(click_sfx)
                         running = False
-            
             clock.tick(30)
             
         elif state == "SETTINGS":
@@ -109,27 +112,25 @@ def main():
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
-                
-                # 1. Luôn xử lý slider (Nếu có)
+                    
                 if hasattr(ui, 'volume_slider'):
                     ui.volume_slider.handle_event(event)
                     pygame.mixer.music.set_volume(ui.volume_slider.val)
-
-                # 2. Kiểm tra click chuột (TÁCH RIÊNG, không dùng elif ở đây)
+                    
                 if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     if ui.btn_back.collidepoint(event.pos):
                         play_sfx(click_sfx)
-                        state = previous_state  # Quay về chỗ cũ thay vì về Home
-            
+                        state = previous_state
             clock.tick(30)
             
         elif state == "CONFIRM_CASHOUT":
             ui.draw_confirm_screen()
             for event in pygame.event.get():
-                if event.type == pygame.QUIT: running = False
+                if event.type == pygame.QUIT:
+                    running = False
                 elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     if ui.btn_yes.collidepoint(event.pos):
-                        play_sfx(win_sfx) # ĐỔI THÀNH TIẾNG WIN
+                        play_sfx(win_sfx)
                         state = "SUMMARY"
                     elif ui.btn_no.collidepoint(event.pos):
                         play_sfx(click_sfx)
@@ -143,6 +144,7 @@ def main():
                     running = False
                 elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     if ui.btn_continue.collidepoint(event.pos):
+                        
                         balances = [1000.0, 1000.0, 1000.0]
                         current_bets = [10, 10, 10]
                         agent1_streak = 0
@@ -197,13 +199,18 @@ def main():
             
             if cp == 0:
                 for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        running = False
+
                     if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                        if ui.btn_gear.collidepoint(event.pos): # Kiểm tra nút Bánh răng
+                        
+                        if ui.btn_gear.collidepoint(event.pos): 
                             play_sfx(click_sfx)
                             previous_state = "GAME"
                             state = "SETTINGS"
+                            
                         if ui.btn_hit.collidepoint(event.pos):
-                            play_sfx(hit_sfx) # ĐỔI TỪ play_click() SANG hit_sfx
+                            play_sfx(hit_sfx)
                             obs, _, done, _, info = env.step(1)
                         elif ui.btn_stand.collidepoint(event.pos):
                             play_sfx(click_sfx)

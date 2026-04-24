@@ -52,13 +52,13 @@ class Slider:
 class VolumeSlider:
     def __init__(self, x, y, width, initial_val=0.4):
         self.rect = pygame.Rect(x, y, width, 8)
-        self.val = initial_val  # Giá trị từ 0.0 đến 1.0
+        self.val = initial_val  
         self.dragging = False
     
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
-                # Kiểm tra va chạm với thanh hoặc khu vực xung quanh nút kéo
+                
                 mouse_pos = event.pos
                 thumb_rect = self._get_thumb_rect()
                 if thumb_rect.collidepoint(mouse_pos) or self.rect.collidepoint(mouse_pos):
@@ -77,12 +77,12 @@ class VolumeSlider:
         return pygame.Rect(thumb_x, thumb_y, 20, 20)
         
     def draw(self, surface):
-        # Vẽ thanh nền
+        
         pygame.draw.rect(surface, (100, 100, 100), self.rect, border_radius=4)
-        # Vẽ phần đã lấp đầy
+        
         fill_rect = pygame.Rect(self.rect.x, self.rect.y, self.val * self.rect.width, self.rect.height)
         pygame.draw.rect(surface, (255, 215, 0), fill_rect, border_radius=4)
-        # Vẽ nút kéo (Thumb)
+        
         thumb_rect = self._get_thumb_rect()
         pygame.draw.ellipse(surface, (255, 255, 255), thumb_rect)
 class BlackjackUI:
@@ -127,20 +127,15 @@ class BlackjackUI:
             print("Lỗi: Không tìm thấy file assets/setting.png")
             self.settings_icon = None
         
-        
     def _init_menu_buttons(self):
         btn_width = 250
         btn_height = 60
-        start_y = 300 # Vị trí bắt đầu của nút Play
-        cx = self.width // 2 - btn_width // 2 # Tính toán để căn giữa theo chiều ngang
+        start_y = 300
+        cx = self.width // 2 - btn_width // 2
         
         self.btn_play = pygame.Rect(cx, start_y, btn_width, btn_height)
-        # Nút Settings hình chữ nhật ở giữa Menu (cách nút Play 100px)
         self.btn_settings = pygame.Rect(cx, start_y + 100, btn_width, btn_height)
-        # Nút Exit (cách nút Settings 100px)
         self.btn_exit = pygame.Rect(cx, start_y + 200, btn_width, btn_height)
-        
-        # Nút Back dùng trong màn hình Settings
         self.btn_back = pygame.Rect(cx, self.height // 2 + 100, btn_width, btn_height)
         
     def _init_game_buttons(self):
@@ -174,15 +169,13 @@ class BlackjackUI:
         else:
             self.screen.fill(BG_COLOR)
             
-        # Vẽ tiêu đề và các nút
         title_font = pygame.font.SysFont("Arial", 70, bold=True)
         title = title_font.render("BLACKJACK", True, (255, 215, 0))
         self.screen.blit(title, (self.width//2 - title.get_width()//2, 120))
         
-        self._draw_button(self.btn_play, "PLAY")
-        # Vẽ nút SETTINGS dạng hình chữ nhật ở giữa màn hình
-        self._draw_button(self.btn_settings, "SETTINGS")
-        self._draw_button(self.btn_exit, "EXIT")
+        self._draw_button(self.btn_play, "PLAY",)
+        self._draw_button(self.btn_settings, "SETTINGS",)
+        self._draw_button(self.btn_exit, "EXIT",)
         
         pygame.display.flip()
 
@@ -192,21 +185,14 @@ class BlackjackUI:
         else:
             self.screen.fill(BG_COLOR)
             
-        # Vẽ Tiêu đề
         title_font = pygame.font.SysFont("Arial", 50, bold=True)
         title_surf = title_font.render("SETTINGS", True, (255, 215, 0))
         self.screen.blit(title_surf, (self.width//2 - title_surf.get_width()//2, 150))
-        
-        # Vẽ Nhãn âm lượng và giá trị %
         vol_label = self.font.render(f"Music Volume: {int(self.volume_slider.val * 100)}%", True, (255, 255, 255))
         self.screen.blit(vol_label, (self.width//2 - vol_label.get_width()//2, self.height//2 - 50))
-        
-        # Vẽ Slider
         self.volume_slider.draw(self.screen)
         
-        # Vẽ nút BACK
         self._draw_button(self.btn_back, "BACK")
-        
         pygame.display.flip()
         
     def draw_confirm_screen(self):
@@ -326,7 +312,7 @@ class BlackjackUI:
         positions = [
             (self.width // 2 - 75, self.height - 300, "Player"),
             (150, self.height - 400, "Random"),
-            (self.width - 250, self.height - 400, "MonteCarlo+Martingale")
+            (self.width - 250, self.height - 400, "MonteCarlo")
         ]
         
         for p_idx in range(3):
@@ -335,7 +321,7 @@ class BlackjackUI:
             self._draw_text(label, x, y - 30, color)
             self._draw_text(f"Bal: ${int(balances[p_idx])}", x, y - 60, TEXT_COLOR, font=self.small_font)
             
-            # Print physical hand score onto screen
+            
             score_val = score_hand([c for c in hands[p_idx] if c != "HIDDEN"])
             self._draw_text(f"Score: {score_val}", x, y + 150, color=(200, 255, 200), font=self.small_font)
             
@@ -371,10 +357,10 @@ class BlackjackUI:
                 pygame.draw.rect(self.screen, (255, 255, 255), r, width=2, border_radius=8)
                 t_surf = self.small_font.render(text, True, (255, 255, 255))
                 self.screen.blit(t_surf, (r.centerx - t_surf.get_width()//2, r.centery - t_surf.get_height()//2))
-            
+                
         if self.settings_icon:
-            self.screen.blit(self.settings_icon, (self.btn_gear.x, self.btn_gear.y))
-        
+            self.screen.blit(self.settings_icon, (self.btn_gear.x, self.btn_gear.y))    
+            
         pygame.display.flip()
         
     def _draw_text(self, text, x, y, color=TEXT_COLOR, font=None):
