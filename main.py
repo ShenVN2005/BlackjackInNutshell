@@ -134,7 +134,7 @@ def main():
                         state = "SUMMARY"
                     elif ui.btn_no.collidepoint(event.pos):
                         play_sfx(click_sfx)
-                        state = "GAME"
+                        state = previous_state
             clock.tick(30)
             
         elif state == "SUMMARY":
@@ -162,12 +162,17 @@ def main():
                 
                 if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     if ui.btn_confirm_bet.collidepoint(event.pos):
+                        play_sfx(click_sfx)
                         amount0 = ui.slider.val
                         amount1 = 10
                         target2 = 10 * (2 ** agent2_lose_streak)
                         amount2 = target2 if target2 < balances[2] else 10
                         current_bets = [amount0, amount1, amount2]
                         state = "GAME"
+                    elif ui.btn_betting_cashout.collidepoint(event.pos):
+                        play_sfx(click_sfx)
+                        previous_state = "BETTING"
+                        state = "CONFIRM_CASHOUT"
             clock.tick(30)
             
         elif state == "GAME":
@@ -220,6 +225,7 @@ def main():
                             obs, _, done, _, info = env.step(2)
                         elif ui.btn_cashout.collidepoint(event.pos):
                             play_sfx(click_sfx)
+                            previous_state = "GAME"
                             state = "CONFIRM_CASHOUT"
                             
             else:
