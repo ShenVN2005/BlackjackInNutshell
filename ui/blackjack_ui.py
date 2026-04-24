@@ -141,13 +141,13 @@ class BlackjackUI:
     def _init_game_buttons(self):
         gb_width = 110
         gb_height = 40
-        gb_x = self.width // 2 - (gb_width*4 + 30) // 2
+        gb_x = self.width // 2 - (gb_width*3 + 20) // 2
         gb_y = self.height - 80
         
         self.btn_hit = pygame.Rect(gb_x, gb_y, gb_width, gb_height)
         self.btn_stand = pygame.Rect(gb_x + gb_width + 10, gb_y, gb_width, gb_height)
         self.btn_surrender = pygame.Rect(gb_x + (gb_width + 10)*2, gb_y, gb_width, gb_height)
-        self.btn_cashout = pygame.Rect(gb_x + (gb_width + 10)*3, gb_y, gb_width, gb_height)
+        self.btn_cashout = pygame.Rect(self.width - 150, self.height - 80, 110, 40)
         self.btn_game_settings = pygame.Rect(10, 10, 140, 40)
         self.btn_gear = pygame.Rect(self.width - 60, 20, 40, 40)
         
@@ -156,11 +156,13 @@ class BlackjackUI:
         self.btn_no = pygame.Rect(self.width//2 + 20, self.height//2 + 10, 120, 50)
         self.btn_continue = pygame.Rect(self.width//2 - 100, self.height - 200, 200, 60)
         self.btn_confirm_bet = pygame.Rect(self.width // 2 - 100, self.height - 100, 200, 60)
+        self.btn_betting_cashout = pygame.Rect(self.width - 150, self.height - 80, 110, 40)
         
-    def _draw_button(self, rect, text, border_radius=15, bg_color=(50, 205, 50)):
+    def _draw_button(self, rect, text, border_radius=15, bg_color=(50, 205, 50), font=None):
+        f = font if font else self.font
         pygame.draw.rect(self.screen, bg_color, rect, border_radius=border_radius)
         pygame.draw.rect(self.screen, (0, 100, 0), rect, width=4, border_radius=border_radius)
-        t_surf = self.font.render(text, True, (255, 255, 255))
+        t_surf = f.render(text, True, (255, 255, 255))
         self.screen.blit(t_surf, (rect.centerx - t_surf.get_width()//2, rect.centery - t_surf.get_height()//2))
 
     def draw_menu(self):
@@ -269,6 +271,7 @@ class BlackjackUI:
             
         self._draw_bet_panel(balances[0])
         self._draw_button(self.btn_confirm_bet, "DEAL CARDS", border_radius=8, bg_color=(255, 140, 0))
+        self._draw_button(self.btn_betting_cashout, "CASH OUT", border_radius=8, bg_color=(139, 34, 34), font=self.small_font)
         pygame.display.flip()
         
     def _draw_bet_panel(self, player_balance):
