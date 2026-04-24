@@ -225,7 +225,7 @@ class BlackjackUI:
         title = pygame.font.SysFont("Arial", 60, bold=True).render("TABLE SUMMARY", True, (255, 215, 0))
         self.screen.blit(title, (self.width//2 - title.get_width()//2, 120))
         
-        names = ["You", "Random", "MonteCarlo+Martingale"]
+        names = ["You", "AI1", "AI2"]
         start_y = 250
         
         for i in range(3):
@@ -259,8 +259,8 @@ class BlackjackUI:
         # Draw player names and balances in the background
         positions = [
             (self.width // 2 - 75, self.height - 300, "Player"),
-            (150, self.height - 400, "Random"),
-            (self.width - 200, self.height - 400, "MonteCarlo")
+            (150, self.height - 400, "AI1"),
+            (self.width - 200, self.height - 400, "AI2")
         ]
         for p_idx in range(3):
             x, y, label = positions[p_idx]
@@ -314,8 +314,8 @@ class BlackjackUI:
             
         positions = [
             (self.width // 2 - 75, self.height - 300, "Player"),
-            (150, self.height - 400, "Random"),
-            (self.width - 250, self.height - 400, "MonteCarlo")
+            (150, self.height - 400, "AI1"),
+            (self.width - 250, self.height - 400, "AI2")
         ]
         
         for p_idx in range(3):
